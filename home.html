@@ -2,25 +2,62 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Esto va a ir en la pestana del navegador</title>
+    <title>Proyecto de Sergio</title>
     <link rel="stylesheet" href="my-css-file.css">
-    <script src="my-js-file.js"></script>
   </head>
   <body>
-    <p>Hola mundo!  </p>
-    <a href="https://www.facebook.com">desde aquí vamos a facebook</a>
-    <ul>
-      <li>Elemento 1</li>
-      <li>Elemento 2</li>
-    </ul>
-    <ol>
-      <li>Elemento 1</li>
-      <li>Elemento 2</li>
-    </ol>
-    <h1>Titulo 1</h1>
-    <h2>Titulo 2</h2>
-    <p><i>Este texto sigue en cursiva</i> Esto es texto normal <b>esto es texto en negrilla</b></p>
-    <strong>Mas texto</strong>
+    <div id="message">Concentrese con colores</div>
+    <input type="button" value="start" onclick="start()">
+    <div id="output"></div>
+    <div id="cButtons"> </div>
+    <div id="guess"></div>
+  <script>
+    var coloresAMostrar=[];
+    var contadorJuego=0;
+    var temporizador;
+    var coloresAdivinados=[];
+    var output = document.getElementById('output');
+    var message=document.getElementById('message');
+    function start() {
+      var colorArr = ["red", "green", "blue", "yellow","magenta","cyan"];
+      var nomColores=["rojo","verde","azul","amarillo","magenta","cyan"];
+      var htmlToLoad=''
+      for (var contador1=0;contador1<colorArr.length;contador1++){
+        htmlToLoad=htmlToLoad+"<div onClick='adivinarColor()' class='"+colorArr[contador1]+"' style='background-color:"+colorArr[contador1]+"'>"+nomColores[contador1]+"</div>"
+      }
+      document.getElementById('cButtons').innerHTML=htmlToLoad
+      for(var contador2=0;contador2<4;contador2++){
+        var colorAleatorio=colorArr[Math.floor(Math.random()*colorArr.length)]
+        coloresAMostrar.push(colorAleatorio)
+      }
+      console.log(coloresAMostrar)
+      ocultarColor()
+    }
+    function mostrarColor(){
+      output.style.backgroundColor=coloresAMostrar[contadorJuego];
+      contadorJuego++;
+      if(contadorJuego>coloresAMostrar.length){
+        clearTimeout(temporizador)
+      }
+      temporizador=setTimeout(ocultarColor,1000)
+    }
+    function ocultarColor(){
+      output.style.backgroundColor='white'
+      temporizador=setTimeout(mostrarColor,1000)
+    }
+    function adivinarColor(){
+      var g=event.target.className
+      coloresAdivinados.push(g)
+      console.log(coloresAdivinados,"colores adivinados")
+      if(coloresAdivinados.length==coloresAMostrar.length){
+        if(coloresAdivinados.toString()==coloresAMostrar.toString()){
+          message.textContent="Acertaste en los colores, ¡felicidades!"
+        }else {
+          message.textContent="casi lo logras, sigue intentando"
+        }
+      }
+      
+    }
+  </script>
   </body>
-  <p>Información nueva</p>
 </html>
